@@ -161,6 +161,30 @@ async function run() {
         res.send(result)
         
       })
+
+      app.put('/tourists/:id', async (req, res) => {
+        const id = req.params.id
+        const filter = { _id: new ObjectId(id) }
+        const options = { upsert: true }
+        const updateCoffee = req.body
+        const coffee = {
+          $set: {
+            photo: updateTourist.photo,
+            name: updateTourist.name,
+            country_Name: updateTourist.country_Name,
+            location: updateTourist.location,
+            short_description: updateTourist.short_description,
+            average_cost: updateTourist.average_cost,
+            seasonality: updateTourist.seasonality,
+            travel_time: updateTourist.travel_time,
+            totalVisitorsPerYear: updateTourist.totalVisitorsPerYear,
+            user_name: updateTourist.user_name,
+            User_Email: updateTourist.User_Email
+          }
+        }
+        const result = await addTourists.updateOne(filter, coffee, options)
+        res.send(result)
+      })
   } finally {
     // Ensures that the client will close when you finish/error
     await client.close();
